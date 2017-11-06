@@ -1,0 +1,14 @@
+sudo: required
+services:
+  - docker
+
+before_script:
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+script:
+  - docker build -t andmos/travishelloworld .
+
+after_success:
+ - if [ "$TRAVIS_BRANCH" == "master" ]; then
+   docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+   docker push andmos/travishelloworld;
+   fi
